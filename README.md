@@ -3,8 +3,9 @@
 A simple yet complete Google translate web extension API in readable format
 
 ## Features
-* No API Token required
-* Almost anything from google translate website
+
+- No API Token required
+- Almost anything from google translate website
 
 ## Installing
 
@@ -149,6 +150,11 @@ Available options are:
 
 See available language id [here](https://cloud.google.com/translate/docs/languages)
 
+See possible property in [output.js](https://github.com/Cudiph/node-gtrans/blob/master/example/output.js)
+or type interface [here](https://github.com/Cudiph/node-gtrans/blob/master/src/index.ts#L29)
+
+See implementation example in [example.js](https://github.com/Cudiph/node-gtrans/blob/master/example/example.js)
+
 ## Credits
 
 https://www.labnol.org/code/19909-google-translate-api  
@@ -156,6 +162,6 @@ https://letconex.blogspot.com/2017/12/google-translate-query-parameters.html
 https://stackoverflow.com/questions/26714426/what-is-the-meaning-of-google-translate-query-params
 
 ## Contributing
+
 Feel free to create an issue or pull request. I think my code isn't good enough
 because this is my first work in typescript and as an exercise to learn typescript as well.
-
