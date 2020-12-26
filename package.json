@@ -5,7 +5,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "yarn run tsc"
+    "build": "yarn run tsc",
+    "test": "yarn build && yarn node ./example/example.js"
   },
   "repository": {
     "type": "git",
