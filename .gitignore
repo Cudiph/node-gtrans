@@ -1,0 +1,12 @@
+# ignoring depedency
+node_modules/
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# output files
+dist/
