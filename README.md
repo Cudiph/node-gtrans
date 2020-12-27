@@ -1,5 +1,9 @@
 # node-gtrans
 
+[![npm version](https://img.shields.io/npm/v/node-gtrans)](https://www.npmjs.org/package/node-gtrans)
+[![npm downloads](https://img.shields.io/npm/dm/node-gtrans)](https://npm-stat.com/charts.html?package=node-gtrans)
+[![package size](https://img.shields.io/bundlephobia/min/node-gtrans)](https://bundlephobia.com/result?p=node-gtrans)
+
 A simple yet complete Google translate web extension API in readable format
 
 ## Features
