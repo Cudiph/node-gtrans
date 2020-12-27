@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { stringify } from "query-string";
 import langId from "./resolver";
 
@@ -8,6 +8,7 @@ type TransOptions = {
   interfaceLang?: string;
   htmlTag?: boolean;
   resolve?: boolean;
+  axiosConfig: AxiosRequestConfig,
 }
 
 type PartOfSpeechDefinition = {
@@ -54,6 +55,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
     interfaceLang = 'en',
     htmlTag = false,
     resolve = true,
+    axiosConfig,
   } = options;
 
   const property = stringify({
@@ -74,7 +76,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
   const url = `https://translate.googleapis.com/translate_a/single?${property}`;
   let result: AxiosResponse<any>;
   try {
-    result = await axios.get(url);
+    result = await axios.get(url, axiosConfig);
   } catch (e) {
     return e;
   }
