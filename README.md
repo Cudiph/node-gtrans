@@ -148,6 +148,26 @@ Available options are:
   }
   ```
 
+- `axiosConfig` - config options for making requests from [axios request config](https://github.com/axios/axios#request-config)
+  ```js
+  // example usage
+  gtrans('walk', {
+    to: 'id',
+    axiosConfig: {
+      proxy: {
+        host: '127.0.0.1',
+        port: 8000,
+        auth: {
+          username: 'mikeymike',
+          password: 'rapunz3l'
+        }
+      },
+      timeout: 1000,
+      responseEncoding: 'utf8'
+    }
+  });
+  ```
+
 See available language id [here](https://cloud.google.com/translate/docs/languages)
 
 See possible property in [output.js](https://github.com/Cudiph/node-gtrans/blob/master/example/output.js)
