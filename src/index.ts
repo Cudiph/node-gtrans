@@ -8,7 +8,7 @@ type TransOptions = {
   interfaceLang?: string;
   htmlTag?: boolean;
   resolve?: boolean;
-  axiosConfig: AxiosRequestConfig,
+  axiosConfig?: AxiosRequestConfig,
 }
 
 type PartOfSpeechDefinition = {
@@ -62,7 +62,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
     client: 'gtx',
     sl: from,
     tl: to,
-    hl: interfaceLang || to,
+    hl: interfaceLang,
     dt: ['at', 'bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't'],
     ie: 'UTF-8',
     oe: 'UTF-8',
@@ -86,7 +86,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
   let readable: ReadableFormat = {
     translated: data[0][0][0],
     sourceText: data[0][0][1],
-    from: data[8] ? data[8][3][0] || data[8][0][0] || 'auto' : 'auto',
+    from: data[8] && data[8][3] || data[8][0] ? data[8][3][0] || data[8][0][0] || 'auto' : 'auto',
     to: to,
   }
 
@@ -105,7 +105,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
   }
 
   // auto correct feature
-  if (data[7].length) {
+  if (data[7] && data[7].length) {
     readable.isCorrected = true;
     if (htmlTag) {
       readable.corrected = data[7][0];
@@ -119,7 +119,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
 
   if (data[0][1]) readable.pronunciation = data[0][1][3] || '';
 
-  const speechList = data[1]
+  const speechList = data[1];
   if (speechList) {
     for (let i = 0; i < speechList.length; i++) {
       speechList[i][2].forEach((elem: any[]) => {
@@ -135,7 +135,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
 
         // push to the readable object where synonymsList[i][0] is oneof :
         // "adjective" | "noun" | "verb"
-        if (!readable.translations) readable.translations = {}
+        if (!readable.translations) readable.translations = {};
 
         if (!readable.translations[speechList[i][0]]) readable.translations[speechList[i][0]] = [] as any;
 
@@ -149,7 +149,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
     }
   }
 
-  const synonyms = data[11]
+  const synonyms = data[11];
   if (synonyms) {
     if (!readable.synonyms) readable.synonyms = {};
     synonyms.forEach((elem: any[]) => {
@@ -207,8 +207,8 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
           definition: defList[0],
           example: defList[2] || '',
           synonyms: synonymsList,
-        })
-      })
+        });
+      });
     });
 
   }
@@ -223,7 +223,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
   });
 
 
-  if (data[14]) {
+  if (data[14] && data[14][0]) {
     readable.related = data[14][0][0]; // appear when you translate v2/v3 word e.g. drunk
   }
 
