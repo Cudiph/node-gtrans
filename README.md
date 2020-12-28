@@ -16,7 +16,7 @@ A simple yet complete Google translate web extension API in readable format
 Using npm:
 
 ```bash
-$ npm i node-gtrans
+$ npm install node-gtrans
 ```
 
 using yarn:
@@ -68,10 +68,10 @@ Both will output this object:
 
 Available options are:
 
-- `from` - The language id where the language comes from the. Leave it blank for auto detection
+- `from`? - The language id where the language comes from the. Leave it blank for auto detection.
 - `to` - The language id where the text will be translated to, this option is required.
-- `interfaceLang` - The language id where the interface such as verbs, noun in object key will be translated. For example
-  in Indonesian, verbs is translated to verba, noun to nomina, etc. Default to 'en' or English
+- `interfaceLang`? - The language id where the interface such as verbs, noun in object key will be translated. For example
+  in Indonesian, verbs is translated to verba, noun to nomina, etc. Default to 'en' or English.
 
   ```js
   // example output from:
@@ -106,8 +106,8 @@ Available options are:
   }
   ```
 
-- `htmlTag` - A boolean state whether the text that contain html tag will be converted to markdown format.
-  html tag appears in examples and corrected. Default to `false`
+- `htmlTag`? - A boolean state whether the text that contain html tag will be converted to markdown format.
+  html tag appears in examples and corrected. Default to `false`.
 
   ```js
   // example output from:
@@ -131,7 +131,7 @@ Available options are:
   }
   ```
 
-- `resolve` - A boolean state whether the language Id is converted to full language name, e.g. from 'en' to 'English'.
+- `resolve`? - A boolean state whether the language Id is converted to full language name, e.g. from 'en' to 'English'.
   Default to `true`.
 
   ```js
@@ -152,32 +152,36 @@ Available options are:
   }
   ```
 
-- `axiosConfig` - config options for making requests from [axios request config](https://github.com/axios/axios#request-config)
+- `axiosConfig`? - config options for making requests from [axios request config](https://github.com/axios/axios#request-config).
+  Default to `undefined`.
   ```js
   // example usage
-  gtrans('walk', {
-    to: 'id',
+  gtrans("walk", {
+    to: "id",
     axiosConfig: {
       proxy: {
-        host: '127.0.0.1',
+        host: "127.0.0.1",
         port: 8000,
         auth: {
-          username: 'mikeymike',
-          password: 'rapunz3l'
-        }
+          username: "mikeymike",
+          password: "rapunz3l",
+        },
       },
       timeout: 1000,
-      responseEncoding: 'utf8'
-    }
+      responseEncoding: "utf8",
+    },
   });
   ```
 
 See available language id [here](https://cloud.google.com/translate/docs/languages)
+or in [resolver.ts](https://github.com/Cudiph/node-gtrans/blob/master/src/resolver.ts)
 
 See possible property in [output.js](https://github.com/Cudiph/node-gtrans/blob/master/example/output.js)
-or type interface [here](https://github.com/Cudiph/node-gtrans/blob/master/src/index.ts#L29)
+or type definition [here](https://github.com/Cudiph/node-gtrans/blob/master/src/index.ts#L29)
 
 See implementation example in [example.js](https://github.com/Cudiph/node-gtrans/blob/master/example/example.js)
+
+**note:** options that end with "?" are optional.
 
 ## Credits
 
