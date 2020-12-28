@@ -15,10 +15,13 @@
   "keywords": [
     "translate",
     "node",
-    "language",
+    "languages",
     "google",
     "i18n",
-    "api"
+    "api",
+    "promise",
+    "http",
+    "axios"
   ],
   "author": "Dwi Asmoro (https://github.com/Cudiph)",
   "license": "MIT",
