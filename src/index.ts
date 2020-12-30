@@ -84,10 +84,16 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
   const { data } = result;
 
   let readable: ReadableFormat = {
-    translated: data[0][0][0],
-    sourceText: data[0][0][1],
+    translated: '',
+    sourceText: '',
     from: data[8] && data[8][3] || data[8][0] ? data[8][3][0] || data[8][0][0] || 'auto' : 'auto',
     to: to,
+  }
+
+  // push translated and sourceText
+  for (const iter of data[0]) {
+    if (iter[0]) readable.translated += iter[0];
+    if (iter[1]) readable.sourceText += iter[1];
   }
 
   if (resolve) {
@@ -117,7 +123,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
     readable.isCorrected = false;
   }
 
-  if (data[0][1]) readable.pronunciation = data[0][1][3] || '';
+  if (data[0][1] && data[0][1][3]) readable.pronunciation = data[0][1][3] || '';
 
   const speechList = data[1];
   if (speechList) {
