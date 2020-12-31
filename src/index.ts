@@ -237,3 +237,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
   return result;
 }
 export = translate;
+translate.validateLangId = (langCode: string): string | boolean => {
+  if (typeof langCode !== 'string') return false;
+  if (langCode in langId) return langId[langCode]; else return false;
+}
