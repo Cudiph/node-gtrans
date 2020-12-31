@@ -1,7 +1,7 @@
 # node-gtrans
 
 [![npm version](https://img.shields.io/npm/v/node-gtrans)](https://www.npmjs.org/package/node-gtrans)
-[![npm downloads](https://img.shields.io/npm/dm/node-gtrans)](https://npm-stat.com/charts.html?package=node-gtrans)
+[![npm downloads](https://img.shields.io/npm/dt/node-gtrans)](https://npm-stat.com/charts.html?package=node-gtrans)
 [![package size](https://img.shields.io/bundlephobia/min/node-gtrans)](https://bundlephobia.com/result?p=node-gtrans)
 [![vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/node-gtrans)](https://snyk.io/test/npm/node-gtrans)
 
@@ -67,7 +67,7 @@ Both will output this object:
 
 ## API
 
-### **gtrans(text, [options])**
+### gtrans(text, [options])
 
 Available options are:
 
@@ -185,6 +185,11 @@ or type definition [here](https://github.com/Cudiph/node-gtrans/blob/master/src/
 See implementation example in [example.js](https://github.com/Cudiph/node-gtrans/blob/master/example/example.js)
 
 **note:** options that end with "?" are optional.
+
+### ytdl.validateLangId(languageCode)
+
+Check if given string is a valid language code.  
+return resolved language if valid else return `false`
 
 ## Credits
 
