@@ -5,7 +5,7 @@
 [![package size](https://img.shields.io/bundlephobia/min/node-gtrans)](https://bundlephobia.com/result?p=node-gtrans)
 [![vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/node-gtrans)](https://snyk.io/test/npm/node-gtrans)
 
-A simple yet complete Google translate web extension API in readable format
+A simple yet complete [Google translate web extension](https://chrome.google.com/webstore/detail/google-translate/aapbdbdomjkkjkaonfhkkikfgjllcleb) API in readable format
 
 ## Features
 
