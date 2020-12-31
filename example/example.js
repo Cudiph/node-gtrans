@@ -83,4 +83,15 @@ async function trans(text, options = {}) {
 
 }
 
-trans('run', { to: 'id'});
+(async () => {
+
+  await trans('run', { to: 'id' });
+
+  const languageId = 'R4nD0m';
+  if (gtrans.validateLangId(languageId)) {
+    trans('walk', { to: languageId });
+  } else {
+    console.log(`"${languageId}" is not valid language code`);
+  }
+
+})()
