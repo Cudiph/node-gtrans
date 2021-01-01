@@ -186,7 +186,7 @@ See implementation example in [example.js](https://github.com/Cudiph/node-gtrans
 
 **note:** options that end with "?" are optional.
 
-### ytdl.validateLangId(languageCode)
+### gtrans.validateLangId(languageCode)
 
 Check if given string is a valid language code.  
 return resolved language if valid else return `false`
