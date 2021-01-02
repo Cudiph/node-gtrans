@@ -74,12 +74,8 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
   });
 
   const url = `https://translate.googleapis.com/translate_a/single?${property}`;
-  let result: AxiosResponse<any>;
-  try {
-    result = await axios.get(url, axiosConfig);
-  } catch (e) {
-    return e;
-  }
+
+  const result = await axios.get(url, axiosConfig);
 
   const { data } = result;
 
