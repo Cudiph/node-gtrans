@@ -2,7 +2,13 @@ const gtrans = require('../dist/index.js');
 
 async function trans(text, options = {}) {
   if (typeof options !== 'object') throw new TypeError('INVALID_TYPE');
-  const translated = await gtrans(text, options).then(res => res.data);
+
+  let translated;
+  try {
+    translated = await gtrans(text, options).then(res => res.data);
+  } catch (e) {
+    return console.error(e);
+  }
 
   console.log(`Word(s) "${text}" has meaning "${translated.translated}"`);
 
