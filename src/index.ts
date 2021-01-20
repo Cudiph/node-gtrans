@@ -89,9 +89,11 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
 
   // push translated and sourceText
   if (data[0])
+    readable.translated = '';
+    readable.sourceText = '';
     for (const iter of data[0]) {
-      if (iter[0]) readable.translated = iter[0];
-      if (iter[1]) readable.sourceText = iter[1];
+      if (iter[0]) readable.translated += iter[0];
+      if (iter[1]) readable.sourceText += iter[1];
       if (data[0][1] && data[0][1][3])
         readable.pronunciation = data[0][1][3] || '';
     }
