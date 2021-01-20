@@ -9,6 +9,7 @@ type TransOptions = {
   htmlTag?: boolean;
   resolve?: boolean;
   axiosConfig?: AxiosRequestConfig,
+  contents?: Array<'t' | 'at' | 'bd' | 'ex' | 'ld' | 'md' | 'qca' | 'rw' | 'rm' | 'ss'>,
 }
 
 type PartOfSpeechDefinition = {
@@ -28,8 +29,8 @@ type PartOfSpeechTranslation = {
 };
 
 interface ReadableFormat {
-  translated: string;
-  sourceText: string;
+  translated?: string;
+  sourceText?: string;
   from: string;
   to: string;
   isCorrected?: boolean;
@@ -56,6 +57,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
     htmlTag = false,
     resolve = true,
     axiosConfig,
+    contents = ['t', 'at', 'bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss'],
   } = options;
 
   const property = stringify({
@@ -63,7 +65,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
     sl: from,
     tl: to,
     hl: interfaceLang,
-    dt: ['at', 'bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't'],
+    dt: contents,
     ie: 'UTF-8',
     oe: 'UTF-8',
     otf: 1,
@@ -79,29 +81,28 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
 
   const { data } = result;
 
+  // create return object
   let readable: ReadableFormat = {
-    translated: '',
-    sourceText: '',
     from: data[8] && data[8][3] || data[8][0] ? data[8][3][0] || data[8][0][0] || 'auto' : 'auto',
     to: to,
   }
 
   // push translated and sourceText
-  for (const iter of data[0]) {
-    if (iter[0]) readable.translated += iter[0];
-    if (iter[1]) readable.sourceText += iter[1];
-  }
+  if (data[0])
+    for (const iter of data[0]) {
+      if (iter[0]) readable.translated = iter[0];
+      if (iter[1]) readable.sourceText = iter[1];
+      if (data[0][1] && data[0][1][3])
+        readable.pronunciation = data[0][1][3] || '';
+    }
 
+  // change lang id to full lang name
   if (resolve) {
-    if (readable.from in langId) {
-      readable.from = langId[readable.from];
-    }
-    if (readable.to in langId) {
-      readable.to = langId[readable.to];
-    } else {
-      // if user give lang id incorrectly, google will always translate to english
-      readable.to = langId['en'];
-    }
+    if (readable.from in langId) readable.from = langId[readable.from];
+    if (readable.to in langId) readable.to = langId[readable.to];
+    else readable.to = langId['en'];
+    // if user give lang id incorrectly, google will always translate to english
+
   } else if (!(readable.to in langId)) {
     readable.to = 'en';
   }
@@ -118,8 +119,6 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
   } else {
     readable.isCorrected = false;
   }
-
-  if (data[0][1] && data[0][1][3]) readable.pronunciation = data[0][1][3] || '';
 
   const speechList = data[1];
   if (speechList) {
@@ -139,7 +138,8 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
         // "adjective" | "noun" | "verb"
         if (!readable.translations) readable.translations = {};
 
-        if (!readable.translations[speechList[i][0]]) readable.translations[speechList[i][0]] = [] as any;
+        if (!readable.translations[speechList[i][0]])
+          readable.translations[speechList[i][0]] = [] as any;
 
         readable.translations[speechList[i][0]].push({
           word: elem[0],
@@ -154,6 +154,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
   const synonyms = data[11];
   if (synonyms) {
     if (!readable.synonyms) readable.synonyms = {};
+
     synonyms.forEach((elem: any[]) => {
       const speechName = elem[0]; // "noun" etc.
 
@@ -161,8 +162,8 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
       elem[1].forEach((el: any[]) => {
         readable.synonyms![speechName].push(el[0]);
       });
-
     });
+
   }
 
 
@@ -173,9 +174,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
       let speechName = elem[0]; // "noun" etc.
 
       // in case if google give an empty string just add to others property
-      if (!speechName) {
-        speechName = 'others';
-      }
+      if (!speechName) speechName = 'others';
 
       // create an empty list if doesn't exist
       if (!readable.definitions![speechName]) readable.definitions![speechName] = [] as any;
@@ -225,14 +224,16 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
   });
 
 
-  if (data[14] && data[14][0]) {
-    readable.related = data[14][0][0]; // appear when you translate v2/v3 word e.g. drunk
-  }
+  if (data[14] && data[14][0])
+    readable.related = data[14][0][0];
+  // appear when you translate v2/v3 word e.g. drunk
 
   result.data = readable;
   return result;
 }
+
 export = translate;
+
 translate.validateLangId = (langCode: string): string | boolean => {
   if (typeof langCode !== 'string') return false;
   if (langCode in langId) return langId[langCode]; else return false;
