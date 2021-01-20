@@ -176,11 +176,14 @@ Available options are:
   });
   ```
 
-See available language id [here](https://cloud.google.com/translate/docs/languages)
+- `contents`? - option to specify data to be returned. It's value for `dt` query parameter,
+  which is explained in [query paramters](https://letconex.blogspot.com/2017/12/google-translate-query-parameters.html)
+
+See available language id at [google translate docs](https://cloud.google.com/translate/docs/languages)
 or in [resolver.ts](https://github.com/Cudiph/node-gtrans/blob/master/src/resolver.ts)
 
 See possible property in [output.js](https://github.com/Cudiph/node-gtrans/blob/master/example/output.js)
-or type definition [here](https://github.com/Cudiph/node-gtrans/blob/master/src/index.ts#L29)
+or at [type definition](https://github.com/Cudiph/node-gtrans/blob/master/src/index.ts#L29)
 
 See implementation example in [example.js](https://github.com/Cudiph/node-gtrans/blob/master/example/example.js)
 
@@ -191,13 +194,8 @@ See implementation example in [example.js](https://github.com/Cudiph/node-gtrans
 Check if given string is a valid language code.  
 return resolved language if valid else return `false`
 
-## Credits
+## See also
 
 https://www.labnol.org/code/19909-google-translate-api  
 https://letconex.blogspot.com/2017/12/google-translate-query-parameters.html  
 https://stackoverflow.com/questions/26714426/what-is-the-meaning-of-google-translate-query-params
-
-## Contributing
-
-Feel free to create an issue or pull request. I think my code isn't good enough
-because this is my first work in typescript and as an exercise to learn typescript as well.
