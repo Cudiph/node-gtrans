@@ -194,6 +194,24 @@ See implementation example in [example.js](https://github.com/Cudiph/node-gtrans
 Check if given string is a valid language code.  
 return resolved language if valid else return `false`
 
+### gtrans.getFixedT(languageCode)
+
+Inspired by `i18next.getFixedT` function, it takes language code
+and return a gtrans default function but without specifying option.
+
+On the returned function you can use it like
+[default function](#gtranstext-options) as shown down below.
+```js
+(async () => {
+  const jp = gtrans.getFixedT('ja');
+  console.log(await jp('I love you'));
+  console.log(await jp(`No, I don't`));
+})();
+// output:
+// > わたしは、あなたを愛しています
+// > いいえ、しません
+```
+
 ## See also
 
 https://www.labnol.org/code/19909-google-translate-api  
