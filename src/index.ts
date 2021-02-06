@@ -241,3 +241,19 @@ translate.validateLangId = (langCode: string): string | boolean => {
   if (typeof langCode !== 'string') return false;
   if (langCode in langId) return langId[langCode]; else return false;
 }
+
+translate.getFixedT = (langCode: string) => {
+  if (!translate.validateLangId(langCode)) throw new Error("Invalid language code");
+
+  async function fixed(text: string) {
+    try {
+      const translated = await translate(text, { to: langCode, contents: ['t'] })
+        .then(res => res.data.translated);
+      return translated;
+    } catch (e) {
+      return text;
+    }
+  }
+
+  return fixed;
+}
