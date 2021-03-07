@@ -10,14 +10,14 @@ type TransOptions = {
   resolve?: boolean;
   axiosConfig?: AxiosRequestConfig,
   contents?: Array<'t' | 'at' | 'bd' | 'ex' | 'ld' | 'md' | 'qca' | 'rw' | 'rm' | 'ss'>,
-}
+};
 
 type PartOfSpeechDefinition = {
   [key: string]: [{
     definition: string;
     example: string;
     synonyms: string[];
-  }]
+  }];
 };
 
 type PartOfSpeechTranslation = {
@@ -25,7 +25,7 @@ type PartOfSpeechTranslation = {
     word: string;
     translations: string[];
     frequency: string;
-  }]
+  }];
 };
 
 interface ReadableFormat {
@@ -85,7 +85,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
   let readable: ReadableFormat = {
     from: data[8] && data[8][3] || data[8][0] ? data[8][3][0] || data[8][0][0] || 'auto' : 'auto',
     to: to,
-  }
+  };
 
   // push translated and sourceText
   if (data[0]) {
@@ -113,11 +113,10 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
   // auto correct feature
   if (data[7] && data[7].length) {
     readable.isCorrected = true;
-    if (htmlTag) {
-      readable.corrected = data[7][0];
-    } else {
+    readable.corrected = data[7][0] || data[7][1];
+    if (!htmlTag) {
       // replace html tag with markdown format
-      readable.corrected = data[7][0].replace(/(?:<b>|<\/b>)/g, '**').replace(/(?:<i>|<\/i>)/g, '*');
+      readable.corrected = readable.corrected?.replace(/(?:<b>|<\/b>)/g, '**').replace(/(?:<i>|<\/i>)/g, '*');
     }
   } else {
     readable.isCorrected = false;
@@ -196,7 +195,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
             for (const iter of e[1]) {
 
               if (metaId === iter[1]) {
-                synonymsList.push(...iter[0])
+                synonymsList.push(...iter[0]);
                 matching++;
               } else if (matching > 0) {
                 // for efficiency when the metaId were the same and nothing more it'll break the loop
@@ -219,9 +218,7 @@ async function translate(text: string, options: TransOptions): Promise<CustomAxi
 
   // example sentences
   if (data[13]) readable.examples = data[13][0].map((elem: any) => {
-    if (htmlTag) {
-      return elem[0];
-    }
+    if (htmlTag) return elem[0];
     // replace html tag to markdown
     return elem[0].replace(/(?:<b>|<\/b>)/g, '**');
   });
@@ -240,7 +237,7 @@ export = translate;
 translate.validateLangId = (langCode: string): string | boolean => {
   if (typeof langCode !== 'string') return false;
   if (langCode in langId) return langId[langCode]; else return false;
-}
+};
 
 translate.getFixedT = (langCode: string) => {
   if (!translate.validateLangId(langCode)) throw new Error("Invalid language code");
@@ -256,4 +253,4 @@ translate.getFixedT = (langCode: string) => {
   }
 
   return fixed;
-}
+};
